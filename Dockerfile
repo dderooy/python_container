@@ -1,15 +1,11 @@
 FROM python:3.8-slim-buster
-LABEL maintainer="Dev"
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /container
 COPY container/ .
-COPY python_requirements.txt python_requirements.txt
-RUN pip install -r python_requirements.txt
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 COPY VERSION VERSION
 
 RUN python setup.py bdist_wheel && pip install dist/*.whl
